@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class FolderController : MonoBehaviour
 {
-    private FolderTools folderTools;
-    public RectTransform content;
-    public GameObject folderObj;
-    public Button last;
+    private FolderTools folderTools;    //文件夹工具管理器
+    public RectTransform content;       //根节点
+    public GameObject folderObj;        //文件夹样式
+    public Button last;                 //上一步按钮
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class FolderController : MonoBehaviour
 
     private void Start()
     {
-        last.onClick.AddListener(delegate { Last(); });
+        last.onClick.AddListener(delegate { Last(); });         //给上一步按钮添加事件
     }
 
     /// <summary>
@@ -39,12 +39,9 @@ public class FolderController : MonoBehaviour
         }
 
         ClearAll(content);
-        InitContent(content, driveList.Length);
 
         for (int i = 0; i < driveList.Length; i++)
-        {
             CreateObj(folderObj, content, driveList[i]);
-        }
     }
 
     string currentPath = "";
@@ -62,16 +59,6 @@ public class FolderController : MonoBehaviour
         obj.transform.GetComponentInChildren<Text>().text = str;
         obj.GetComponent<Button>().onClick.AddListener(delegate { CreateFolderAndFiles(obj); });
         return obj;
-    }
-
-    /// <summary>
-    /// 初始化容器尺寸
-    /// </summary>
-    /// <param name="content">容器</param>
-    /// <param name="num">容器里物体的数量</param>
-    private void InitContent(RectTransform content, int num)
-    {
-        content.sizeDelta = new Vector2(content.sizeDelta.x, (content.GetComponent<GridLayoutGroup>().cellSize.y + content.GetComponent<GridLayoutGroup>().spacing.y) * num);
     }
 
     /// <summary>
@@ -122,9 +109,7 @@ public class FolderController : MonoBehaviour
         }
         string lastPath = "";
         for (int i = 0; i < allPath.Count; i++)
-        {
             lastPath = allPath[allPath.Count - 2];
-        }
         allPath.Remove(allPath[allPath.Count - 1]);
         CreateFolder(lastPath);
         CreateFiles(lastPath);
@@ -147,12 +132,9 @@ public class FolderController : MonoBehaviour
 
         index = folderList.Length;
         ClearAll(content);
-        InitContent(content, folderList.Length);
 
         for (int i = 0; i < folderList.Length; i++)
-        {
             CreateObj(folderObj, content, folderList[i]);
-        }
     }
 
     /// <summary>
@@ -168,11 +150,7 @@ public class FolderController : MonoBehaviour
             return;
         }
 
-        InitContent(content, filesList.Length + index);
-
         for (int i = 0; i < filesList.Length; i++)
-        {
             CreateObj(folderObj, content, filesList[i]);
-        }
     }
 }
