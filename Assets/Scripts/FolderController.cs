@@ -6,18 +6,12 @@ using UnityEngine.UI;
 
 public class FolderController : MonoBehaviour
 {
-    private FolderTools folderTools;    //文件夹工具管理器
     public RectTransform content;       //根节点
     public GameObject folderObj;        //文件夹样式
     public Button last;                 //上一步按钮
 
     private void Awake()
     {
-        if (folderTools == null)
-        {
-            var folderController = new GameObject("FolderController", typeof(FolderTools));
-            folderTools = folderController.GetComponent<FolderTools>();
-        }
         CreateDrives();
     }
 
@@ -31,7 +25,7 @@ public class FolderController : MonoBehaviour
     /// </summary>
     private void CreateDrives()
     {
-        var driveList = folderTools.GetDriveList();
+        var driveList = FolderTools.GetDriveList();
         if (driveList == null || driveList.Length == 0)
         {
             Debug.LogError("获取本地磁盘失败！");
@@ -82,7 +76,7 @@ public class FolderController : MonoBehaviour
         if (path.Length > 3)
         {
             string temp = path.Substring(0, 3);
-            if (Array.IndexOf(folderTools.GetDriveList(), temp) != -1)
+            if (Array.IndexOf(FolderTools.GetDriveList(), temp) != -1)
                 path = path.Substring(3, path.Length - 3);
         }
 
@@ -123,7 +117,7 @@ public class FolderController : MonoBehaviour
     /// <param name="path">路径</param>
     private void CreateFolder(string path)
     {
-        var folderList = folderTools.GetFolderList(path);
+        var folderList = FolderTools.GetFolderList(path);
         if (folderList == null)
         {
             Debug.LogError("获取" + path + "下文件夹失败！");
@@ -143,7 +137,7 @@ public class FolderController : MonoBehaviour
     /// <param name="path">路径</param>
     private void CreateFiles(string path)
     {
-        var filesList = folderTools.GetFilesList(path);
+        var filesList = FolderTools.GetFilesList(path);
         if (filesList == null)
         {
             Debug.LogError("获取" + path + "下文件失败！");
